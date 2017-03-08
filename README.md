@@ -36,7 +36,7 @@ db
 
 ```
 
-More info can be found [rubydoc](http://www.rubydoc.info/gems/heliodor)
+More info can be found at [rubydoc](http://www.rubydoc.info/gems/heliodor)
 
 ## Development
 
