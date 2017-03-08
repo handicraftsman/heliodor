@@ -1,8 +1,6 @@
 # Heliodor
 
-Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/heliodor`. To experiment with that code, run `bin/console` for an interactive prompt.
-
-TODO: Delete this and the text above, and describe your gem
+Heliodor is server-less database management tool
 
 ## Installation
 
@@ -22,7 +20,21 @@ Or install it yourself as:
 
 ## Usage
 
-TODO: Write usage instructions here
+Next example creates new database file, table inside of it and inserts value
+
+```ruby
+require 'heliodor'
+db = Heliodor::DB.new './example.db'
+db
+  .query('Users') # Perform query on table 'users'
+  .ensure         # Ensure that this table exists - if it does not, create it
+  .insert(first_name: 'Vasya', last_name: 'Pupkin', age: 20) # Insert data into table
+  .write  # Write data
+  .finish # Finish query - executes all statements
+
+# Resulting table will be returned after finishing query
+
+```
 
 ## Development
 
@@ -32,7 +44,7 @@ To install this gem onto your local machine, run `bundle exec rake install`. To 
 
 ## Contributing
 
-Bug reports and pull requests are welcome on GitHub at https://github.com/[USERNAME]/heliodor. This project is intended to be a safe, welcoming space for collaboration, and contributors are expected to adhere to the [Contributor Covenant](http://contributor-covenant.org) code of conduct.
+Bug reports and pull requests are welcome on GitHub at https://github.com/handicraftsman/heliodor. This project is intended to be a safe, welcoming space for collaboration, and contributors are expected to adhere to the [Contributor Covenant](http://contributor-covenant.org) code of conduct.
 
 
 ## License
