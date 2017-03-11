@@ -43,6 +43,21 @@ class Heliodor::DB
     end
   end
 
+  # Deletes given table
+  # @param table [String]
+  # @return [self]
+  def delete(table)
+    if @tsafe
+      @mutex.synchronize do
+        @dat.delete(table)
+        write(dat)
+      end
+    else
+      write(dat)
+      @dat.delete(table)
+    end
+  end
+
   # Returns array of table names
   # @return [Array<String>] Array of table names
   def tables

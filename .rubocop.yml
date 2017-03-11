@@ -21,3 +21,6 @@ Style/Documentation:
 
 Style/ClassAndModuleChildren:
   Enabled: false
+
+Style/IfInsideElse:
+  Enabled: false

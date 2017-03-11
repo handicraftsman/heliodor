@@ -50,10 +50,24 @@ class Heliodor::Query
     @dat = @full[@table]
   end
 
-  def _delete
-    @full.delete @table
-    @db.write(@full)
-    @dat = nil
+  def _delete(dat)
+    d = @dat
+    @dat = d.map do |i|
+      if dat.class == Hash
+        if i >= dat
+          nil
+        else
+          i
+        end
+      else
+        if i == dat
+          nil
+        else
+          i
+        end
+      end
+    end
+    @dat
   end
 
   def _write
@@ -83,7 +97,7 @@ class Heliodor::Query
       when 'rename'
         _rename(action['to'])
       when 'delete'
-        _delete
+        _delete(actopm['dat'])
       when 'write'
         _write
       else

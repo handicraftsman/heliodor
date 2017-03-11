@@ -125,11 +125,12 @@ class Heliodor::Query
     self
   end
 
-  # Deletes current table. WARNING: writes changes to database
+  # Deletes matching items
   # @return [self]
-  def delete
+  def delete(dat = {})
     actions << {
-      'type' => 'delete'
+      'type' => 'delete',
+      'dat'  => dat
     }
     self
   end
