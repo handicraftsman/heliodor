@@ -16,14 +16,14 @@ class Heliodor::Query
   def _select(dat = {})
     out = []
     @dat.each do |item|
-      out << item if (v.class == Hash) && (item >= dat)
+      out << item if item.class.ancestors.include?(Hash) && item >= dat
     end
     @dat = out
   end
 
-  def _update(dat1 = {}, dat2 = {})
+  def _update(_dat1 = {}, dat2 = {})
     @dat.each_with_index do |v, k|
-      @dat[k] = v.merge(dat2) if (v.class == Hash) && (v >= dat1)
+      @dat[k] = v.merge(dat2) if v.class.ancestors.include?(Hash) && v >= dat
     end
   end
 
