@@ -1,4 +1,5 @@
 require 'bson'
+require 'zlib'
 
 module Heliodor
 end

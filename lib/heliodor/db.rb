@@ -19,13 +19,17 @@ class Heliodor::DB
     @file = File.expand_path(file.to_s)
 
     if File.exist?(@file)
-      raw = File.read(File.expand_path(@file))
-      bb = BSON::ByteBuffer.new(raw)
-      @dat = Hash.from_bson(bb)
+      Zlib::GzipReader.open(File.expand_path(@file)) do |f|
+        bb = BSON::ByteBuffer.new(f.read)
+        @dat = Hash.from_bson(bb)
+        f.close
+      end
     else
-      File.open(@file, 'w') do |f|
+      Zlib::GzipWriter.open(File.expand_path(@file)) do |f|
+        # File.open(@file, 'w') do |f|
         f.write(@dtable.to_bson.to_s)
         @dat = @dtable.clone
+        f.close
       end
     end
   end
@@ -69,8 +73,9 @@ class Heliodor::DB
   def write(dat)
     @dat = dat
     File.truncate(@file, 0) if File.exist?(@file)
-    File.open(@file, 'w') do |f|
+    Zlib::GzipWriter.open(File.expand_path(@file)) do |f|
       f.write(dat.merge(@dtable).to_bson.to_s)
+      f.close
     end
     self
   end
