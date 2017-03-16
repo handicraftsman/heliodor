@@ -21,9 +21,9 @@ class Heliodor::Query
     @dat = out
   end
 
-  def _update(_dat1 = {}, dat2 = {})
+  def _update(dat1 = {}, dat2 = {})
     @dat.each_with_index do |v, k|
-      @dat[k] = v.merge(dat2) if v.class.ancestors.include?(Hash) && v >= dat
+      @dat[k] = v.merge(dat2) if v.class.ancestors.include?(Hash) && v >= dat1
     end
   end
 
