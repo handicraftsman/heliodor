@@ -19,18 +19,15 @@ class Heliodor::DB
     @file = File.expand_path(file.to_s)
 
     if File.exist?(@file)
-      Zlib::GzipReader.open(File.expand_path(@file)) do |f|
-        bb = BSON::ByteBuffer.new(f.read)
-        @dat = Hash.from_bson(bb)
-        f.close
-      end
+      f = Zlib::GzipReader.open(File.expand_path(@file))
+      bb = BSON::ByteBuffer.new(f.read)
+      @dat = Hash.from_bson(bb)
+      f.close
     else
-      Zlib::GzipWriter.open(File.expand_path(@file)) do |f|
-        # File.open(@file, 'w') do |f|
-        f.write(@dtable.to_bson.to_s)
-        @dat = @dtable.clone
-        f.close
-      end
+      f = Zlib::GzipWriter.open(File.expand_path(@file))
+      f.write(@dtable.to_bson.to_s)
+      @dat = @dtable.clone
+      f.close
     end
   end
 
@@ -54,10 +51,10 @@ class Heliodor::DB
     if @tsafe
       @mutex.synchronize do
         @dat.delete(table)
-        write(dat)
+        write(@dat)
       end
     else
-      write(dat)
+      write(@dat)
       @dat.delete(table)
     end
   end
@@ -65,7 +62,7 @@ class Heliodor::DB
   # Returns array of table names
   # @return [Array<String>] Array of table names
   def tables
-    Hash.from_bson(BSON::ByteBuffer.new(File.read(@file))).keys
+    @dat.keys
   end
 
   # Writes database to file

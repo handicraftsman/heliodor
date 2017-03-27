@@ -67,6 +67,7 @@ class Heliodor::Query
         end
       end
     end
+    @dat.delete(nil)
     @dat
   end
 
@@ -97,7 +98,7 @@ class Heliodor::Query
       when 'rename'
         _rename(action['to'])
       when 'delete'
-        _delete(actopm['dat'])
+        _delete(action['dat'])
       when 'write'
         _write
       else
